@@ -21,17 +21,17 @@ export class Leg{
 export class Swap{
     signature: string;
     owner: string;
-    slot: number;
+    blockTime: number;
     fee: number;
     legs: Leg[];
     inUiAmount: number;
     inMint: string;
     outUiAmount: number;
     outMint: string;
-    constructor(legs: Leg[], signature: string, owner: string, slot: number, fee: number) {
+    constructor(legs: Leg[], signature: string, owner: string, blockTime: number, fee: number) {
       this.signature = signature;
       this.owner = owner;
-      this.slot = slot;
+      this.blockTime = blockTime;
       this.fee = fee;
       this.legs = legs;
       this.inUiAmount = legs[0].inUiAmount;
@@ -255,10 +255,9 @@ export async function decodeIx(txSig: string) {
       // create Swap object
       const signature = tx!.transaction!.signatures[0]
       const owner = tx!.transaction!.message!.accountKeys[0].toBase58()
-      const slot = tx!.slot
+      const blockTime = tx!.blockTime
       const fee = tx!.meta!.fee
-      const swap = new Swap(legs, signature, owner, slot, fee)
-
+      const swap = new Swap(legs, signature, owner, blockTime, fee)
       return swap
     } else {
       return false
