@@ -25,11 +25,16 @@ npm install
 
 
 # Run parser.ts file
-`npm run parse`.# runs ./src/parser.ts file
+`npm run parser`.# runs ./src/parser.ts file
 ...
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+## ToDo
+Currently, I use the Pre and Post Balances Accounts.
+This does not allow me to parse the intermediate token during a swap over multiple legs.
+I plan in the future to parse the innerInstructions to decode the Token Transfer.
 
 ## Useful Links
 
