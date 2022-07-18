@@ -4,7 +4,7 @@
   "description": "Parser to parse transaction on the Jupiter program.",
   "main": "index.js",
   "scripts": {
-    "parser": "ts-node ./src/parser.ts"
+    "parser": "ts-node ./src/cli.ts"
   },
   "author": "",
   "license": "ISC",
