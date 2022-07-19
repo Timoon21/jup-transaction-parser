@@ -55,9 +55,8 @@ const accountNamesMapping: {[index: string]:any}  = {
   },
   serumSwap: {
     amm: sentenceCase("dexProgram"),
-    source: sentenceCase("orderPayerTokenAccount"),
-    coin: sentenceCase("coinWallet"),
-    pc: sentenceCase("pcWallet"),
+    source: sentenceCase("coinWallet"),
+    destination: sentenceCase("pcWallet"),
   },
   stepTokenSwap: {
     amm: sentenceCase("tokenSwapProgram"),
@@ -86,13 +85,13 @@ const accountNamesMapping: {[index: string]:any}  = {
   },
   aldrinSwap: {
     amm: sentenceCase("swapProgram"),
-    base: sentenceCase("userBaseTokenAccount"),
-    quote: sentenceCase("userQuoteTokenAccount"),
+    source: sentenceCase("userBaseTokenAccount"),
+    destination: sentenceCase("userQuoteTokenAccount"),
   },
   aldrinV2Swap: {
     amm: sentenceCase("swapProgram"),
-    base: sentenceCase("userBaseTokenAccount"),
-    quote: sentenceCase("userQuoteTokenAccount"),
+    source: sentenceCase("userBaseTokenAccount"),
+    destination: sentenceCase("userQuoteTokenAccount"),
   },
   cremaTokenSwap: {
     amm: sentenceCase("swapProgram"),
@@ -210,6 +209,24 @@ export async function decodeIx(txSig: string) {
             ({name}) => name === 'aToB'
           )
           if (test!.data !== "true") {
+            [source, destination] = [destination, source]
+          }
+        }
+        // Specific Serum 'Side' value
+        if(decodedIx.name == 'serumSwap'){
+          const test = formatIx!.args!.find(
+            ({name}) => name === 'side'
+          )
+          if (test!.data !== "Ask") {
+            [source, destination] = [destination, source]
+          }
+        }
+        // Specific Aldrin 'Side' value
+        if(decodedIx.name == 'aldrinSwap' || decodedIx.name == 'aldrinV2Swap'){
+          const test = formatIx!.args!.find(
+            ({name}) => name === 'side'
+          )
+          if (test!.data !== "Ask") {
             [source, destination] = [destination, source]
           }
         }
